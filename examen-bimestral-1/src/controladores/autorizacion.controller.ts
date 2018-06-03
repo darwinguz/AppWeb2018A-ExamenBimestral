@@ -34,7 +34,7 @@ export class AutorizacionController {
     cerrarSesion(@Req() request, @Res() response) {
         const existeCookie = request.cookies[NOMBRE_COOKIE];
         if (existeCookie) {
-            //
+            response.cookie(NOMBRE_COOKIE, 'undefined');
             return response.send({mensaje: 'Usted salio del sistema'});
         } else {
             return response.send({mensaje: 'Usted no se encuentra logeado en el sistema'});
