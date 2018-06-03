@@ -25,6 +25,10 @@ export const POKEMON_SCHEMA = Joi
             .alphanum()
             .min(3)
             .max(50),
+        fechaCaptura: Joi
+            .date()
+            .min('1-1-1900')
+            .max('now'),
         nivel: Joi
             .number()
             .integer()

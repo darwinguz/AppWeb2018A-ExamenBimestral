@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Post, Put, Req, Res} from "@nestjs/common";
-import {EntrenadorPipe} from "./pipes/entrenador.pipe";
-import {ENTRENADOR_SCHEMA} from "./entidades/entrenador/entrenador.schema";
-import {EntrenadorService} from "./entrenador.service";
+import {EntrenadorPipe} from "../pipes/entrenador.pipe";
+import {ENTRENADOR_SCHEMA} from "../entidades/entrenador/entrenador.schema";
+import {EntrenadorService} from "../servicios/entrenador.service";
 
 @Controller('Entrenador')
 export class EntrenadorController {
@@ -10,14 +10,14 @@ export class EntrenadorController {
     }
 
     /**
-     * Listar todos los usuarios en el arreglo de entrenadores del servicio Entrenador
+     * Listar todos los entrenadores en el arreglo de entrenadores del servicio Entrenador
      * @param response
      * @returns {any}
      */
     @Get('listarTodos')
     listarTodos(@Res() response) {
-        const usuarios = this._entrenadorService.seleccionarTodos();
-        return response.send(usuarios);
+        const entrenadores = this._entrenadorService.seleccionarTodos();
+        return response.send(entrenadores);
     }
 
 
@@ -34,7 +34,7 @@ export class EntrenadorController {
 
     /**
      * Busca y devuelve el entrenador con el parámetro de ruta llamado "id" en el arreglo de
-     * entrenadores del servicio entrenador
+     * entrenadores del servicio Entrenador
      * @param request
      * @param response
      * @returns {any}
@@ -46,8 +46,8 @@ export class EntrenadorController {
     }
 
     /**
-     * Buscar el entrenador con el parámetro de ruta llamado "id"  en el arreglo de entrenadores
-     * del servicio entrenador y edita el entrenador con los bodyParams del request
+     * Busca el entrenador con el parámetro de ruta llamado "id"  en el arreglo de entrenadores
+     * del servicio Entrenador y edita el entrenador con los bodyParams del request
      * @param request
      * @param nuevoEntrenador
      * @returns {any}
