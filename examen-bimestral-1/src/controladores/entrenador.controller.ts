@@ -2,6 +2,10 @@ import {Body, Controller, Get, Post, Put, Req, Res} from "@nestjs/common";
 import {EntrenadorPipe} from "../pipes/entrenador.pipe";
 import {ENTRENADOR_SCHEMA} from "../entidades/entrenador/entrenador.schema";
 import {EntrenadorService} from "../servicios/entrenador.service";
+import {PeticionErroneaException} from "../exceptions/peticion.erronea.exception";
+import {NoEncontradaException} from "../exceptions/no.encontrada.exception";
+
+const Joi = require('joi');
 
 @Controller('Entrenador')
 export class EntrenadorController {
@@ -41,8 +45,21 @@ export class EntrenadorController {
      */
     @Get('obtenerUno/:id')
     obtenerUno(@Req() request, @Res() response) {
-        const entrenador = this._entrenadorService.seleccionarUno(request.params.id);
-        return response.send(entrenador);
+        const schema = Joi.number().greater(0).required();
+        const {
+            error
+        } = Joi.validate(request.params.id, schema)
+        if (error) {
+            //lanzar un error
+            throw new PeticionErroneaException({
+                error: error,
+                mensaje: 'ID para obtener una entidad no valido'
+            }, 10);
+        } else {
+            //realizo operacion
+            const entrenador = this._entrenadorService.seleccionarUno(request.params.id);
+            return response.send(entrenador);
+        }
     }
 
     /**
@@ -54,7 +71,18 @@ export class EntrenadorController {
      */
     @Put('editarUno/:id')
     editarUno(@Req() request, @Body(new EntrenadorPipe(ENTRENADOR_SCHEMA)) nuevoEntrenador) {
-        this._entrenadorService.actualizar(request.params.id, nuevoEntrenador);
-        return nuevoEntrenador;
+        const schema = Joi.number().greater(0).required();
+        const error = Joi.validate(request.params.id, schema)
+        if (error) {
+            //lanzar un error
+            throw new PeticionErroneaException({
+                error: error,
+                mensaje: 'ID para editar entidad no valido'
+            }, 10);
+        } else {
+            //realizo operacion
+            this._entrenadorService.actualizar(request.params.id, nuevoEntrenador);
+            return nuevoEntrenador;
+        }
     }
 }

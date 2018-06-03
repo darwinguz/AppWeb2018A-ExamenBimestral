@@ -1,5 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {PokemonEntity} from "../entidades/pokemon/pokemon.entity";
+import {NoEncontradaException} from "../exceptions/no.encontrada.exception";
 
 @Injectable()
 export class PokemonService {
@@ -17,7 +18,12 @@ export class PokemonService {
     }
 
     seleccionarUno(id: number): PokemonEntity {
-        return this.pokemones.find(item => item.id == id);
+        const pokemon = this.pokemones.find(item => item.id == id);
+        if (pokemon == null) {
+            throw new NoEncontradaException({mensaje: `No se ha encontrado la entidad con ID = ${id}`}, 1000)
+        } else {
+            return pokemon;
+        }
     }
 
     actualizar(id: number, nuevoPokemon: PokemonEntity): PokemonEntity {

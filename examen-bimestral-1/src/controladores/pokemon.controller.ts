@@ -1,9 +1,10 @@
 import {Body, Controller, Get, Post, Put, Req, Res} from "@nestjs/common";
-import {EntrenadorPipe} from "../pipes/entrenador.pipe";
-import {ENTRENADOR_SCHEMA} from "../entidades/entrenador/entrenador.schema";
 import {PokemonService} from "../servicios/pokemon.service";
 import {POKEMON_SCHEMA} from "../entidades/pokemon/pokemon.shema";
 import {PokemonPipe} from "../pipes/pokemon.pipe";
+import {PeticionErroneaException} from "../exceptions/peticion.erronea.exception";
+
+const Joi = require('joi');
 
 @Controller('Pokemon')
 export class PokemonController {
@@ -43,8 +44,21 @@ export class PokemonController {
      */
     @Get('obtenerUno/:id')
     obtenerUno(@Req() request, @Res() response) {
-        const pokemon = this._pokemonService.seleccionarUno(request.params.id);
-        return response.send(pokemon);
+        const schema = Joi.number().greater(0).required();
+        const {
+            error
+        } = Joi.validate(request.params.id, schema)
+        if (error) {
+            //lanzar un error
+            throw new PeticionErroneaException({
+                error: error,
+                mensaje: 'ID para obtener una entidad no valido'
+            }, 10);
+        } else {
+            //realizo operacion
+            const pokemon = this._pokemonService.seleccionarUno(request.params.id);
+            return response.send(pokemon);
+        }
     }
 
     /**
@@ -56,7 +70,18 @@ export class PokemonController {
      */
     @Put('editarUno/:id')
     editarUno(@Req() request, @Body(new PokemonPipe(POKEMON_SCHEMA)) nuevoPokemon) {
-        this._pokemonService.actualizar(request.params.id, nuevoPokemon);
-        return nuevoPokemon;
+        const schema = Joi.number().greater(0).required();
+        const error = Joi.validate(request.params.id, schema)
+        if (error) {
+            //lanzar un error
+            throw new PeticionErroneaException({
+                error: error,
+                mensaje: 'ID para editar entidad no valido'
+            }, 10);
+        } else {
+            //realizo operacion
+            this._pokemonService.actualizar(request.params.id, nuevoPokemon);
+            return nuevoPokemon;
+        }
     }
 }

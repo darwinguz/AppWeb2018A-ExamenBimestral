@@ -17,7 +17,7 @@ export class EntrenadorPipe implements PipeTransform {
             //lanzar un error
             throw new PeticionErroneaException({
                 error: error,
-                mensaje: 'Json no valido customizado'
+                // mensaje: 'Json no valido customizado'
             }, 10);
         } else {
             //nada

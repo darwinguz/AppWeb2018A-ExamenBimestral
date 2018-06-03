@@ -1,5 +1,6 @@
 import {Injectable} from "@nestjs/common";
 import {EntrenadorEntity} from "../entidades/entrenador/entrenador.entity";
+import {NoEncontradaException} from "../exceptions/no.encontrada.exception";
 
 @Injectable()
 export class EntrenadorService {
@@ -17,7 +18,12 @@ export class EntrenadorService {
     }
 
     seleccionarUno(id: number): EntrenadorEntity {
-        return this.entrenadores.find(item => item.id == id);
+        const entrenador = this.entrenadores.find(item => item.id == id);
+        if (entrenador == null) {
+            throw new NoEncontradaException({mensaje: `No se ha encontrado la entidad con ID = ${id}`}, 1000)
+        } else {
+            return entrenador;
+        }
     }
 
     actualizar(id: number, nuevoEntrenador: EntrenadorEntity): EntrenadorEntity {
