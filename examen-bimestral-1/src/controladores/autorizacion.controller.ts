@@ -32,7 +32,6 @@ export class AutorizacionController {
      */
     @Post('cerrarSesion')
     cerrarSesion(@Req() request, @Res() response) {
-        console.log('NOMBRECOOKIE******' + NOMBRE_COOKIE)
         const existeCookie = request.cookies[NOMBRE_COOKIE];
         if (existeCookie) {
             //
