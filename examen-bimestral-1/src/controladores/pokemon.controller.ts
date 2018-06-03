@@ -1,8 +1,8 @@
 import {Body, Controller, Get, Post, Put, Req, Res} from "@nestjs/common";
 import {PokemonService} from "../servicios/pokemon.service";
-import {POKEMON_SCHEMA} from "../entidades/pokemon/pokemon.shema";
 import {PokemonPipe} from "../pipes/pokemon.pipe";
 import {PeticionErroneaException} from "../exceptions/peticion.erronea.exception";
+import {POKEMON_SCHEMA} from "../entidades/pokemon/pokemon.schema";
 
 const Joi = require('joi');
 

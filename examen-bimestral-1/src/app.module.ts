@@ -5,13 +5,15 @@ import {EntrenadorController} from "./controladores/entrenador.controller";
 import {EntrenadorService} from "./servicios/entrenador.service";
 import {PokemonController} from "./controladores/pokemon.controller";
 import {PokemonService} from "./servicios/pokemon.service";
+import {AutorizacionController} from "./controladores/autorizacion.controller";
 
 @Module({
     imports: [],
     controllers: [
         AppController,
         EntrenadorController,
-        PokemonController],
+        PokemonController,
+        AutorizacionController],
     providers: [
         AppService,
         EntrenadorService,
