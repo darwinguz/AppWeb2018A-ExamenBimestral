@@ -17,7 +17,8 @@ export class PokemonController {
      * @param response
      * @returns {any}
      */
-    @Get('/')
+    // @Get('/')
+    @Get()
     listarTodos(@Res() response) {
         const pokemones = this._pokemonService.seleccionarTodos();
         return response.send(pokemones);
@@ -29,7 +30,8 @@ export class PokemonController {
      * @param nuevoPokemon
      * @returns {any}
      */
-    @Post('/')
+    // @Post('/')
+    @Post()
     crearEntrenador(@Body(new PokemonPipe(POKEMON_SCHEMA)) nuevoPokemon) {
         this._pokemonService.insertar(nuevoPokemon);
         return nuevoPokemon;
@@ -42,7 +44,8 @@ export class PokemonController {
      * @param response
      * @returns {any}
      */
-    @Get('/:id')
+    // @Get('/:id')
+    @Get(':id')
     obtenerUno(@Req() request, @Res() response) {
         const schema = Joi.number().greater(0).required();
         const {
@@ -68,7 +71,8 @@ export class PokemonController {
      * @param nuevoPokemon
      * @returns {any}
      */
-    @Put('/:id')
+    // @Put('/:id')
+    @Put(':id')
     editarUno(@Req() request, @Body(new PokemonPipe(POKEMON_SCHEMA)) nuevoPokemon) {
         const schema = Joi.number().greater(0).required();
         const {

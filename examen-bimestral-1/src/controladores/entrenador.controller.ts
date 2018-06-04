@@ -19,7 +19,8 @@ export class EntrenadorController {
      * @returns {any}
      */
     // @Get('listarTodos')
-    @Get('/')
+    // @Get('/')
+    @Get()
     listarTodos(@Res() response) {
         const entrenadores = this._entrenadorService.seleccionarTodos();
         return response.send(entrenadores);
@@ -31,7 +32,8 @@ export class EntrenadorController {
      * @param nuevoEntrenador
      * @returns {any}
      */
-    @Post('/')
+    // @Post('/')
+    @Post()
     crearEntrenador(@Body(new EntrenadorPipe(ENTRENADOR_SCHEMA)) nuevoEntrenador) {
         this._entrenadorService.insertar(nuevoEntrenador);
         return nuevoEntrenador;
@@ -44,7 +46,8 @@ export class EntrenadorController {
      * @param response
      * @returns {any}
      */
-    @Get('/:id')
+    // @Get('/:id')
+    @Get(':id')
     obtenerUno(@Req() request, @Res() response) {
         const schema = Joi.number().greater(0).required();
         const {
@@ -70,7 +73,8 @@ export class EntrenadorController {
      * @param nuevoEntrenador
      * @returns {any}
      */
-    @Put('/:id')
+    // @Put('/:id')
+    @Put(':id')
     editarUno(@Req() request, @Body(new EntrenadorPipe(ENTRENADOR_SCHEMA)) nuevoEntrenador) {
         const schema = Joi.number().greater(0).required();
         const {
